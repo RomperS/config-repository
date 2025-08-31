@@ -1,0 +1,61 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /auth-service/api
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_service
+    username: ${POSTGRES_DB_USER}
+    password: ${DB_PASS}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret:
+    key: "${SECRET_KEY}"
+  access-token:
+    expiration:
+      minutes: 24
+  refresh-token:
+    expiration:
+      days: 15
+    refresh-signature: "${REFRESHMENT_SIGNATURE}"
+
+springdoc:
+  swagger-ui:
+    path: /swagger/swagger-ui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: true
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /auth/**
+    - /users/**
+    - /tokens/**
+
+logging:
+  level:
+    org.hibernate:
+      orm:
+        jdbc:
+          bind: TRACE
+      type:
+        descriptor:
+          sql:
+            BasicExtractor: TRACE
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+        data: DEBUG
+        web: DEBUG
+    com.zaxxer.hikari: DEBUG
