@@ -33,3 +33,5 @@ logging:
   level:
     org.springframework.web: INFO
     com.olo.configservice: debug
+    
+message: Hello from the remote config server!
