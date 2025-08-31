@@ -9,7 +9,7 @@ eureka:
 
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/auth_db
+    url: jdbc:postgresql://postgres:5432/auth_service
     username: ${DB_POSTGRES_USER}
     password: ${DB_PASSWORD}
   jpa:
