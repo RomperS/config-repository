@@ -47,6 +47,7 @@ springdoc:
 
 logging:
   level:
+    root: INFO
     org.hibernate:
       orm:
         jdbc:
