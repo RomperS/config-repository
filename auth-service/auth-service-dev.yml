@@ -8,7 +8,7 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 30
     lease-expiration-duration-in-seconds: 90
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instance-id: auth-service-dev
 
 spring:
   datasource:
@@ -40,7 +40,6 @@ jwt:
   refresh-token:
     expiration:
       days: 15
-    refresh-signature: "${REFRESHMENT_SIGNATURE}"
 
 springdoc:
   swagger-ui:
@@ -63,14 +62,9 @@ logging:
       orm:
         jdbc:
           bind: TRACE
-      type:
-        descriptor:
-          sql:
-            BasicExtractor: TRACE
-    org:
-      springframework:
-        orm:
-          jpa: DEBUG
-        data: DEBUG
-        web: DEBUG
+    org.springframework:
+      orm:
+        jpa: DEBUG
+      data: DEBUG
+      web: DEBUG
     com.zaxxer.hikari: DEBUG
