@@ -1,0 +1,60 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:/auth-service/api}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    # ID dinámica para múltiples instancias en producción
+    instance-id: ${spring.application.name}:${random.value}
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_URL}
+    healthcheck:
+      enabled: true
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: false # Deshabilitado para producción
+    hibernate:
+      ddl-auto: none # No permitir cambios automáticos en la base de datos en producción
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret:
+    key: "${JWT_SECRET_KEY}"
+  access-token:
+    expiration:
+      minutes: ${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES:24}
+  refresh-token:
+    expiration:
+      days: ${JWT_REFRESH_TOKEN_EXPIRATION_DAYS:15}
+
+springdoc:
+  swagger-ui:
+    enabled: false # Deshabilitado en producción por seguridad
+  api-docs:
+    enabled: false # Deshabilitado en producción
+
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO # Logging menos detallado
+    com.zaxxer.hikari: INFO
