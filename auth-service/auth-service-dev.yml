@@ -62,9 +62,7 @@ springdoc:
   show-actuator: true
   default-produces-media-type: application/json
   paths-to-match:
-    - /auth/**
-    - /users/**
-    - /tokens/**
+    - /validate/**
 
 logging:
   level:
