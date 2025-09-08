@@ -30,6 +30,7 @@ spring:
           auth: true
           starttls:
             enable: true
+      link: http://127.0.0.1:5500/index.html?token=
   kafka:
     bootstrap-servers: kafka:9092
     producer:
@@ -76,4 +77,7 @@ logging:
         jpa: DEBUG
       data: DEBUG
       web: DEBUG
+      kafka: INFO
+    org.apache:
+      kafka: INFO
     com.zaxxer.hikari: DEBUG
