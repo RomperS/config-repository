@@ -31,8 +31,7 @@ spring:
           starttls:
             enable: true
       link: http://127.0.0.1:5500/index.html?token=
-      
-kafka:
+  kafka:
   bootstrap-servers: kafka:9092
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -40,7 +39,7 @@ kafka:
   consumer:
     group-id: auth-service-group
     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 
 jwt:
   secret:
