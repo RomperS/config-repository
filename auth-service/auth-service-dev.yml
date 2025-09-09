@@ -52,7 +52,10 @@ jwt:
       days: 15
 
 cors:
-  allowed-origins: 
+  allowed-origins:
+    - https://www.frontend-a.com
+    - https://www.frontend-b.com
+    - http://localhost:3000
     - http://127.0.0.1:5500/index.html
 
 springdoc:
