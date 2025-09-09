@@ -11,6 +11,15 @@ eureka:
     instance-id: auth-service-dev
 
 spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: auth-service-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   datasource:
     url: jdbc:postgresql://postgres:5432/auth_service
     username: ${DB_POSTGRES_USER}
@@ -31,15 +40,6 @@ spring:
           starttls:
             enable: true
       link: http://127.0.0.1:5500/index.html?token=
-  kafka:
-  bootstrap-servers: kafka:9092
-  producer:
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.apache.kafka.common.serialization.StringSerializer
-  consumer:
-    group-id: auth-service-group
-    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 
 jwt:
   secret:
