@@ -52,7 +52,8 @@ jwt:
       days: 15
 
 cors:
-  allowed-origins: http://127.0.0.1:5500/index.html
+  allowed-origins: 
+    - http://127.0.0.1:5500/index.html
 
 springdoc:
   swagger-ui:
