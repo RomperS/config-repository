@@ -85,6 +85,7 @@ logging:
       data: DEBUG
       web: DEBUG
       kafka: INFO
+      mail: DEBUG
     org.apache:
       kafka: INFO
     com.zaxxer.hikari: DEBUG
