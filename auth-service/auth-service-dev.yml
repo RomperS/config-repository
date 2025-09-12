@@ -42,7 +42,7 @@ spring:
 security:
   admin:
     password: "${PASSWORD}"
-            
+    
 base-url:
   signup: http://127.0.0.1:5500/index.html?token=
 
@@ -56,13 +56,6 @@ jwt:
     expiration:
       days: 15
 
-cors:
-  allowed-origins:
-    - https://www.frontend-a.com
-    - https://www.frontend-b.com
-    - http://localhost:3000
-    - http://127.0.0.1:5500
-
 springdoc:
   swagger-ui:
     path: /swagger/swagger-ui.html
@@ -74,21 +67,18 @@ springdoc:
   default-produces-media-type: application/json
   paths-to-match:
     - /validate/**
+    - /permissions/**
+    - /users/**
+    - /tokens/**
 
 logging:
   level:
     root: INFO
-    org.hibernate:
-      orm:
-        jdbc:
-          bind: TRACE
-    org.springframework:
-      orm:
-        jpa: DEBUG
-      data: DEBUG
-      web: DEBUG
-      kafka: INFO
-      mail: DEBUG
-    org.apache:
-      kafka: INFO
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.data: INFO
+    org.springframework.web: INFO
+    org.springframework.kafka: INFO
+    org.springframework.mail: INFO
+    org.apache.kafka: INFO
     com.zaxxer.hikari: DEBUG
