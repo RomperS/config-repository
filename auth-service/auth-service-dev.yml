@@ -39,6 +39,9 @@ spring:
           auth: true
           starttls:
             enable: true
+security:
+  admin:
+    password: "${PASSWORD}"
             
 base-url:
   signup: http://127.0.0.1:5500/index.html?token=
