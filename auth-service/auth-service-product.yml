@@ -1,32 +1,41 @@
 server:
-  port: ${SERVER_PORT:8080}
+  port: 9000
   servlet:
-    context-path: ${SERVER_CONTEXT_PATH:/auth-service/api}
+    context-path: /auth-service/api
 
 eureka:
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 30
     lease-expiration-duration-in-seconds: 90
-    instance-id: ${spring.application.name}:${random.value}
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_URL}
-    healthcheck:
-      enabled: true
+    instance-id: auth-service-prod
 
 spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: auth-service-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
+    url: jdbc:postgresql://postgres:5432/auth_service
+    username: ${DB_POSTGRES_USER}
     password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   jpa:
     show-sql: false
     hibernate:
       ddl-auto: none
   mail:
     host: ${MAIL_HOST}
-    port: ${MAIL_PORT:587}
+    port: ${MAIL_PORT}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:
@@ -35,25 +44,39 @@ spring:
           auth: true
           starttls:
             enable: true
+security:
+  admin:
+    password: "${ENCODED_PASSWORD}"
+    
+base-url:
+  signup: https://github.com/RomperS/config-repository/edit/main/auth-service/auth-service-product.yml
 
 jwt:
   secret:
-    key: "${JWT_SECRET_KEY}"
+    key: "${SECRET_KEY}"
   access-token:
     expiration:
-      minutes: ${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES:24}
+      minutes: 24
   refresh-token:
     expiration:
-      days: ${JWT_REFRESH_TOKEN_EXPIRATION_DAYS:15}
+      days: 15
+
 
 springdoc:
   swagger-ui:
     enabled: false
   api-docs:
     enabled: false
-
+  show-actuator: false
+  
 logging:
   level:
     root: INFO
-    org.hibernate: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.springframework.orm.jpa: INFO
+    org.springframework.data: INFO
+    org.springframework.web: INFO
+    org.springframework.kafka: INFO
+    org.springframework.mail: INFO
+    org.apache.kafka: INFO
     com.zaxxer.hikari: INFO
