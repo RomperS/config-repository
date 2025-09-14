@@ -30,6 +30,8 @@ spring:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+    parameters:
+      changesPath: db/changelog/changes
 
 jwt:
   secret:
