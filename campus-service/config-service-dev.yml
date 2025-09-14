@@ -1,0 +1,59 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /campus-service/api
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    instance-id: campus-service-dev
+
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: campus-service-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  datasource:
+    url: jdbc:postgresql://postgres:5432/campus_service
+    username: ${DB_POSTGRES_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret:
+    key: "${SECRET_KEY}"
+  access-token:
+    expiration:
+      minutes: 24
+  refresh-token:
+    expiration:
+      days: 15
+
+springdoc:
+  swagger-ui:
+    path: /swagger/swagger-ui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: true
+  default-produces-media-type: application/json
+  paths-to-match:
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.orm.jpa: INFO
+    org.springframework.web: INFO
+    org.apache.kafka: INFO
