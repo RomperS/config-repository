@@ -11,6 +11,8 @@ eureka:
     instance-id: campus-service-dev
 
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   kafka:
     bootstrap-servers: kafka:9092
     producer:
