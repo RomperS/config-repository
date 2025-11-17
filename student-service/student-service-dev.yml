@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://postgres:5432/student_db
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+server:
+  port: 8080
+  servlet:
+    context-path: /student-service/api/v1
