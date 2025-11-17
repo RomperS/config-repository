@@ -10,7 +10,7 @@ spring:
     hibernate:
       ddl-auto: none
 server:
-  port: 8082
+  port: 8081
   servlet:
     context-path: /campus-service/api/v1
 
@@ -24,3 +24,21 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/discovery-service/api/v1/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    enable:
+      jvm: true
+      process: true
+
+logging:
+  level:
+    org.springframework.web: INFO
+    com.olo.campusservice: DEBUG
