@@ -10,7 +10,7 @@ spring:
     hibernate:
       ddl-auto: none
 server:
-  port: 8081
+  port: 8082
   servlet:
     context-path: /campus-service/api/v1
 
