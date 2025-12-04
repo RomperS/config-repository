@@ -43,7 +43,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://192.168.1.150:8761/eureka,http://192.168.1.150:8762/eureka
 jwt:
   secret:
     key: ${AUTH_SECRET_KEY}
