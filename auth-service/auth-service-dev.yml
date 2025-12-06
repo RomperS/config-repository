@@ -56,7 +56,7 @@ jwt:
       
 super-admin:
   username: ${AUTH_USERNAME}
-  password: "{noop}${AUTH_PASSWORD}"
+  password: ${AUTH_PASSWORD}
   
 management:
   endpoints:
