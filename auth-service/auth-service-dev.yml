@@ -53,6 +53,10 @@ jwt:
   refresh-token:
     expiration: 
       days: 15
+      
+super-admin:
+  username: ${AUTH_USERNAME}
+  password: "{noop}${AUTH_PASSWORD}"
   
 management:
   endpoints:
