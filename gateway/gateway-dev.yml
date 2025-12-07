@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: gateway
+server:
+  port: 8080
+  servlet:
+    context-path: /gateway/api/v1
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${PEERS_URLS}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    enable:
+      jvm: true
+      process: true
+
+logging:
+  level:
+    org.springframework.web: INFO
+    com.olo.campusservice: DEBUG
