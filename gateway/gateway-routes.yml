@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: discover-service
+          uri: lb://DISCOVERY-SERVICE
+          predicate:
+            - Path=/api/discovery-service/**
+          filters:
+            - StripPrefix=2
+            - PrefixPath=/eureka
+
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicate:
+            - Path=/api/auth/**
+          filters:
+              - StripPrefix=1
+              - PrefixPath=/auth-service/api/v1
