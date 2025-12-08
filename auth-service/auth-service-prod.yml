@@ -48,6 +48,7 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
+    ip-address: 192.168.1.150
     lease-renewal-interval-in-seconds: 30
     lease-expiration-duration-in-seconds: 90
   client:
