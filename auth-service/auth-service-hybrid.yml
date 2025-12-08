@@ -1,0 +1,5 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: 192.168.1.150
+    non-secure-port: ${SERVER_PORT:9000}
