@@ -1,5 +1,91 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:auth_db}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 5
+      properties:
+        spring.json.add.type.headers: false
+    consumer:
+      group-id: auth-service-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: "*"
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+          order_inserts: true
+          order_updates: true
+
+server:
+  port: ${SERVER_PORT:9000}
+  servlet:
+    context-path: /auth-service/api/v1
+
 eureka:
   instance:
     prefer-ip-address: true
     ip-address: 192.168.1.150
-    non-secure-port: ${SERVER_PORT:9000}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${PEERS_URLS}
+
+jwt:
+  secret:
+    key: ${AUTH_SECRET_KEY}
+  access-token:
+    expiration:
+      minutes: 24
+  refresh-token:
+    expiration:
+      days: 15
+
+super-admin:
+  username: ${AUTH_USERNAME}
+  password: ${AUTH_PASSWORD}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus"
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    enable:
+      jvm: true
+      process: true
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    org.springframework.web: ${LOG_LEVEL:INFO}
+    org.hibernate: WARN
