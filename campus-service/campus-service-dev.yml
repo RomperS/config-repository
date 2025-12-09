@@ -20,10 +20,15 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false
+    
 server:
   port: 8081
   servlet:
     context-path: /campus-service/api/v1
+    
+jwt:
+  secret:
+    key: "${AUTH_SECRET_KEY}"
 
 eureka:
   instance:
