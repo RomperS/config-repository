@@ -47,8 +47,9 @@ server:
 
 eureka:
   instance:
-    prefer-ip-address: true
-    ip-address: 192.168.1.150
+    prefer-ip-address: true    
+    ip-address: '192.168.1.150'
+    instance-id: ${spring.application.name}:${random.value}
     lease-renewal-interval-in-seconds: 30
     lease-expiration-duration-in-seconds: 90
   client:
