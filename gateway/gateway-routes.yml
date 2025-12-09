@@ -9,6 +9,7 @@ spring:
           filters:
             - StripPrefix=2
             - PrefixPath=/eureka
+            - ExternalAuthFilter
 
         - id: auth-service
           uri: lb://AUTH-SERVICE
