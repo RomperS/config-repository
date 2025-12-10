@@ -15,6 +15,11 @@ spring:
       retries: 5
       properties:
         spring.json.add.type.headers: false 
+  security:
+    user:
+      name: ${AUTH_USERNAME}
+      password: ${AUTH_PASSWORD}
+  
         
   jpa:
     hibernate:
@@ -29,11 +34,6 @@ server:
 jwt:
   secret:
     key: ${AUTH_SECRET_KEY}
-
-auth:
-  basic:
-    username: ${AUTH_USERNAME}
-    password: ${AUTH_PASSWORD}
 
 eureka:
   instance:
