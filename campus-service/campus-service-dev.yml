@@ -28,7 +28,12 @@ server:
     
 jwt:
   secret:
-    key: "${AUTH_SECRET_KEY}"
+    key: ${AUTH_SECRET_KEY}
+
+auth:
+  basic:
+    username: ${AUTH_USERNAME}
+    password: ${AUTH_PASSWORD}
 
 eureka:
   instance:
