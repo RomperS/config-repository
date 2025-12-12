@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: campus-service
+  datasource:
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:campus_db}
+    driver-class-name: org.postgresql.Driver
+    hikari: # Agregado (Propiedades de Hikari Pool para Prod)
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 5
+      properties:
+        spring.json.add.type.headers: false
+    security:
+      user:
+        name: ${AUTH_USERNAME}
+        password: ${AUTH_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+          order_inserts: true
+          order_updates: true
+
+server:
+  port: ${SERVER_PORT:8081}
+  servlet:
+    context-path: /campus-service/api/v1
+
+jwt:
+  secret:
+    key: ${AUTH_SECRET_KEY}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${PEERS_URLS}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus"
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    enable:
+      jvm: true
+      process: true
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    org.springframework.web: ${LOG_LEVEL:INFO}
+    org.hibernate: WARN
