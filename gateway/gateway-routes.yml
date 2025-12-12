@@ -2,6 +2,7 @@ spring:
   cloud:
     gateway:
       routes:
+        # 1. DISCOVERY SERVICE (EUREKA)
         - id: discover-service
           uri: lb://DISCOVERY-SERVICE
           predicates:
@@ -11,10 +12,43 @@ spring:
             - PrefixPath=/eureka
             - ExternalAuthFilter
 
-        - id: auth-service
+        # 2. AUTH SERVICE - RUTAS PÚBLICAS (Login, Tokens, GET Users)
+        - id: auth-service-public
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/auth/**, /api/users, /api/users/**
+            - Path=/api/auth/**, /api/users, /api/users/username/**
           filters:
             - StripPrefix=1
             - PrefixPath=/auth-service/api/v1
+        
+        # 3. AUTH SERVICE - RUTAS SEGURAS (POST/PUT/DELETE Users y Logout)
+        - id: auth-service-secure
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/users, /api/users/**, /api/auth/logout
+            - Method=POST, PUT, DELETE
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/auth-service/api/v1
+            - ExternalAuthFilter
+
+        # 4. CAMPUS SERVICE - RUTAS PÚBLICAS (Todos los GET)
+        - id: campus-service-public
+          uri: lb://CAMPUS-SERVICE
+          predicates:
+            - Path=/api/campuses, /api/campuses/**, /api/rooms, /api/rooms/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/campus-service/api/v1
+
+       # 5. CAMPUS SERVICE - RUTAS SEGURAS (POST/PUT/DELETE/PATCH)
+        - id: campus-service-secure
+          uri: lb://CAMPUS-SERVICE
+          predicates:
+            - Path=/api/campuses, /api/campuses/**, /api/rooms, /api/rooms/**
+            - Method=POST, PUT, PATCH, DELETE
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/campus-service/api/v1
+            - ExternalAuthFilter
