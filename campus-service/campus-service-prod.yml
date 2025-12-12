@@ -6,7 +6,7 @@ spring:
     password: ${DB_PASSWORD}
     url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:campus_db}
     driver-class-name: org.postgresql.Driver
-    hikari: # Agregado (Propiedades de Hikari Pool para Prod)
+    hikari:
       connection-timeout: 20000
       minimum-idle: 5
       maximum-pool-size: 20
@@ -21,10 +21,10 @@ spring:
       retries: 5
       properties:
         spring.json.add.type.headers: false
-    security:
-      user:
-        name: ${AUTH_USERNAME}
-        password: ${AUTH_PASSWORD}
+  security:
+    user:
+      name: ${AUTH_USERNAME}
+      password: ${AUTH_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate
