@@ -12,41 +12,51 @@ spring:
             - PrefixPath=/eureka
             - ExternalAuthFilter
 
-        # 2. AUTH SERVICE - RUTAS PÚBLICAS (Login, Tokens, GET Users)
-        - id: auth-service-public
+        # 2. AUTH SERVICE - PUBLIC ACTIONS (Login, Tokens Refresh/Valid)
+        - id: auth-service-public-actions
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/auth/**, /api/users, /api/users/username/**
+            - Path=/api/auth/login, /api/tokens/refresh, /api/tokens/valid
           filters:
             - StripPrefix=1
             - PrefixPath=/auth-service/api/v1
-        
-        # 3. AUTH SERVICE - RUTAS SEGURAS (POST/PUT/DELETE Users y Logout)
+
+        # 2.1 AUTH SERVICE - PUBLIC DATA (GET Users)
+        - id: auth-service-public-data
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/users, /api/users/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/auth-service/api/v1
+
+        # 3. AUTH SERVICE - SECURE (POST/PUT/DELETE Users, Logout, Delete Tokens)
         - id: auth-service-secure
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/users, /api/users/**, /api/auth/logout
-            - Method=POST, PUT, DELETE
+            - Path=/api/users, /api/users/**, /api/auth/logout, /api/tokens/delete
+            - Method=POST, PUT, DELETE, PATCH
           filters:
             - StripPrefix=1
             - PrefixPath=/auth-service/api/v1
             - ExternalAuthFilter
 
-        # 4. CAMPUS SERVICE - RUTAS PÚBLICAS (Todos los GET)
+        # 4. CAMPUS SERVICE - PUBLIC (GET Campuses, Rooms/Classrooms)
         - id: campus-service-public
           uri: lb://CAMPUS-SERVICE
           predicates:
-            - Path=/api/campuses, /api/campuses/**, /api/rooms, /api/rooms/**
+            - Path=/api/campuses, /api/campuses/**, /api/rooms, /api/rooms/**, /api/classrooms, /api/classrooms/**
             - Method=GET
           filters:
             - StripPrefix=1
             - PrefixPath=/campus-service/api/v1
 
-       # 5. CAMPUS SERVICE - RUTAS SEGURAS (POST/PUT/DELETE/PATCH)
+        # 5. CAMPUS SERVICE - SECURE (Write operations)
         - id: campus-service-secure
           uri: lb://CAMPUS-SERVICE
           predicates:
-            - Path=/api/campuses, /api/campuses/**, /api/rooms, /api/rooms/**
+            - Path=/api/campuses, /api/campuses/**, /api/rooms, /api/rooms/**, /api/classrooms, /api/classrooms/**
             - Method=POST, PUT, PATCH, DELETE
           filters:
             - StripPrefix=1
